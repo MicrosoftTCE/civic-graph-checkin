@@ -42,10 +42,11 @@
             $("html, body").animate({scrollTop: $(window).height()}, 600);
             return false;
         };
-        $scope.add           = function () {
+        $scope.add           = function (optOut) {
+            console.log(optOut);
             $scope.templateShown = false;
-            $scope.save($scope.editEntity);
-            // $scope.savetoDB();
+            $scope.removeEmpty($scope.editEntity);
+            $scope.savetoDB($scope.editEntity, optOut);
             $("html, body").animate({scrollTop: $(window).height() * 2}, 600);
         };
 
@@ -53,8 +54,6 @@
             // console.log($scope.editEntity)
             var valid = false;
             // if ($scope.newEntity.name && $scope.newEntity.location && $scope.newEntity.type){
-           console.log($scope.templateShown);
-            console.log($scope.newOrganization);
             if ($scope.editEntity.name
                 && !$scope.templateShown
                 && $scope.newOrganization.name) {
@@ -296,9 +295,10 @@
 
         };
 
-        $scope.savetoDB       = function (entity) {
+        $scope.savetoDB       = function (entity, optOut) {
+            console.log(optOut);
             $scope.updating = true;
-            $http.post('api/save', {'entity': entity})
+            $http.post('api/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
                     $scope.dataToEntities(response);
                     document.getElementById("nEntityForm").reset();
@@ -357,10 +357,6 @@
         $scope.cancelEdit = function () {
             $scope.removeEmpty();
             $scope.stopEdit();
-        };
-        $scope.save       = function (entity) {
-            $scope.removeEmpty(entity);
-            $scope.savetoDB(entity);
         };
     }
 

@@ -8,7 +8,7 @@
     <form id="nEntityForm">
         <div class="step-container">
             <div id="step1">
-                <h2>Add yourself to Civic Graph</h2>
+                <h2>Check in to Civic Hall</h2>
                 <label for="editEntityName">Name</label><br>
                 <input type='text'
                        name='entityName'
@@ -90,9 +90,9 @@
                 <div id="waitMessage" ng-if="waitingForResponse"><span>Adding Organization</span><span
                         class="one">.</span><span class="two">.</span><span class="three">.</span>​
                 </div>
-                <button ng-click="add()" class="buttonadd"
+                <button ng-click="add(false)" class="buttonadd"
                         ng-disabled='!isValidAdd()'>Check In</button>
-                <button ng-click = "save()"
+                <button ng-click = "add(true)"
                         ng-disabled='!isValidAdd()'
                         class="civicgraph-save">submit without saving to civicgraph.io
                 </button>
@@ -102,7 +102,7 @@
             <div id="step3">
                 <img src="../../img/greenchecked.png" alt="success">
                 <br>
-                <h2>You've been added!</h2>
+                <h2>You're checked in!</h2>
                 <h3>Go to civicgraph.io to view and edit your network!</h3>
             </div>
         </div>
