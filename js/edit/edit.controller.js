@@ -307,7 +307,7 @@
                     $scope.newOrganization.type = null;
                     $scope.addBlankFields($scope.editEntity);
                     $scope.addBlankFields($scope.newOrganization);
-                    // $("html, body").animate({scrollTop: 0}, 1000);
+                    $("html, body").animate({scrollTop: 0}, 1000);
                 })
                 .error(function (data, status, headers, config) {
                     window.location.reload();
