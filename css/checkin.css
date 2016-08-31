@@ -52,6 +52,7 @@ body {
 ol, ul {
 	list-style: none;
 }
+
 blockquote, q {
 	quotes: none;
 }
@@ -104,6 +105,23 @@ h4{
 	font-weight: 100;
 	font-style: italic;
 }
+
+p {
+	display: inherit !important;
+}
+
+.top-banner {
+	height: 5vh;
+	padding: 0 0 0 0;
+}
+
+div.top-banner p {
+	color: #4A4A4A;
+	font-size: 1em;
+	text-align: right;
+	padding: 1em 1em 1em 1em;
+}
+
 .left-container{
 	text-align: center;
 	height: 100vh;
@@ -111,18 +129,22 @@ h4{
 	padding: 0;
 	margin-top: 0;
 }
+
 .left-container img{
 	width: 100%;
 	padding: 4%;
 	margin-top: 10px;
 }
+
 .left-container div{
 	text-align: center;
 }
+
 .right-container{
 	margin-left: 41.5%;
 	height: 100vh;
 	background-color: #fafafc;
+	padding: 0 0 0 0;
 	/*background-image: url('/../img/civic_hall_bg.png');*/
 	/*opacity: 0.2;*/
 }
