@@ -77,12 +77,22 @@ a {
 a:hover {
     color: #66ad1c;
 }
+
+h1 {
+	font-size: 1.2em;
+	color: #727272;
+	align-items: center;
+	padding-bottom: 2em;
+}
+
 h2{
 	font-size: 1.2em;
 	color: #727272;
-	margin: 0% 0% 5% 0%;
+	margin: 5% 0 5% -15%;
 	align-items: center;
+	padding-right: inherit;
 }
+
 h3, label{
 	color: #BBBBBB;
 	font-size: 1.2em;
@@ -96,9 +106,10 @@ h4{
 }
 .left-container{
 	text-align: center;
-	border-right: 1px solid #DDDDDD;
-	height: 80vh;
+	height: 100vh;
 	position: fixed;
+	padding: 0;
+	margin-top: 0;
 }
 .left-container img{
 	width: 100%;
@@ -106,31 +117,42 @@ h4{
 	margin-top: 10px;
 }
 .left-container div{
-	margin-top: 5vh;
 	text-align: center;
 }
 .right-container{
-	margin-left: 43%;
+	margin-left: 41.5%;
 	height: 100vh;
+	background-color: #fafafc;
+	/*background-image: url('/../img/civic_hall_bg.png');*/
+	/*opacity: 0.2;*/
 }
+
 .step-container{
-	padding-left: 5%;
+	/*padding-left: 15%;*/
 	display: table;
     table-layout: fixed;
 }
 .logo-container{
+	height:100vh;
+	padding: 0;
+	background-image: url('/../img/civic_hall_bg.png');
+	/*opacity: 0.2;*/
+	margin-top: 0;
 }
+
 .logo-container img{
-	height: 100%;
 	width: 100%;
+	margin-top: 15%;
 }
+
 #step1,#step2,#step3{
 	/*margin-right: 10%;*/
 	/*margin-left: 10%;*/
 	/*margin: auto 10%;*/
 	height: 100vh;
-	width: 50vw;
+	width: 75em;
 	display:table-cell;
+	padding: 10% 5% 5% 15%;
     vertical-align:middle;
 /*    text-align:center;
 */}
@@ -155,7 +177,7 @@ button.civicgraph-save {
 	padding: 0%;
 	margin:0%;
 	font-size: x-small;
-	width: 65%;
+	width: 75%;
 	border: 0px;
 	color: #cccccc;
 	text-transform: lowercase;

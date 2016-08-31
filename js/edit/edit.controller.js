@@ -296,7 +296,7 @@
         };
 
         $scope.savetoDB       = function (entity, optOut) {
-            console.log(optOut);
+            console.log(JSON.stringify({'entity': entity}));
             $scope.updating = true;
             $http.post('api/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
@@ -307,7 +307,7 @@
                     $scope.newOrganization.type = null;
                     $scope.addBlankFields($scope.editEntity);
                     $scope.addBlankFields($scope.newOrganization);
-                    $("html, body").animate({scrollTop: 0}, 1000);
+                    // $("html, body").animate({scrollTop: 0}, 1000);
                 })
                 .error(function (data, status, headers, config) {
                     window.location.reload();
