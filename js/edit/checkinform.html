@@ -1,6 +1,6 @@
 <div class="left-container col-xs-5 col-sm-5 col-md-5 col-lg-5">
     <div class="logo-container">
-        <img src="../../img/civichall.png" alt="Code For America Summit">
+        <img src="../../img/civichall.png">
     </div>
 </div>
 <div class="right-container col-xs-7 col-sm-7 col-md-7 col-lg-7">
@@ -8,66 +8,93 @@
         <div class="top-banner">
             <p id="date"></p>
         </div>
-        <div class="step-container">
-            <div id="step1">
-                <h1>Check-In to Civic Hall</h1>
-                <label for="editEntityName">Name</label><br>
+        <div class="step-container" ng-hide="isSaving">
+            <h1>Check-In to Civic Hall</h1>
+            <label for="editEntityName">Name</label><br>
+            <input type='text'
+                   name='entityName'
+                   ng-model='editEntity.name'
+                   required
+                   typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
+                   typeahead-on-select="onSelect($item, $model, $label)"
+                   id="editEntityName">
+            <div id="employerEntity" ng-class="{ 'template': templateShown}">
+                <label for="employmentEntity">Organization</label><br>
                 <input type='text'
-                       name='entityName'
-                       ng-model='editEntity.name'
-                       required
+                       name='orgName'
+                       ng-repeat='employment in editEntity.employments|limitTo:1'
+                       ng-model='employment.entity'
                        typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
-                       typeahead-on-select="onSelect($item, $model, $label)"
-                       id="editEntityName">
-                <div id="employerEntity" ng-class="{ 'template': templateShown}">
-                    <label for="employmentEntity">Organization</label><br>
-                    <input type='text'
-                           name='orgName'
-                           ng-repeat='employment in editEntity.employments|limitTo:1'
-                           ng-model='employment.entity'
-                           typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
-                           ng-blur='checkOrganization($item, $model, $label)'
-                           ng-change='addNameToOrg()'
-                           ng-keyup="$event.keyCode == 13 ? submit() : null"
-                           typeahead-on-select='setConnection($item, employment)'
-                           id="employmentEntity">
+                       ng-blur='checkOrganization($item, $model, $label)'
+                       ng-change='addNameToOrg()'
+                       ng-keyup="$event.keyCode == 13 ? submit() : null"
+                       typeahead-on-select='setConnection($item, employment)'
+                       id="employmentEntity">
 
-                    <div ng-if='templateShown'>
-                        <label>Location of Organization</label><br>
-                        <div id='locationmsgorg'><span>Please select a location from the dropdown menu.</span>​</div>
-                        <input title="Full Address" type='text'
-                               ng-repeat='location in newOrganization.locations|limitTo:1'
-                               ng-model='location.full_address'
-                               typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                               typeahead-on-select='setLocation(location, $item)' typeahead-editable='false'
-                               ng-change='addLocation(newOrganization.locations)'
-                               ng-enter-blur-org='{{newOrganization.locations}}'><br>
-                        <input title="Organization Type" type="radio" id='cb1' class="radio3 for-profit-background"
-                               ng-model='newOrganization.type' value="For-Profit"><label for="cb1">For-Profit</label>
-                        <input title="New Organization" type="radio" id='cb2' class="radio3 government-background"
-                               ng-model='newOrganization.type' value="Government"><label for="cb2">Government</label>
-                        <input title="New Organization Type" type="radio" id='cb3' class="radio3 non-profit-background"
-                               ng-model='newOrganization.type' value="Non-Profit"><label for="cb3">Non-Profit</label>
-                    </div>
+                <div ng-if='templateShown'>
+                    <label>Location of Organization</label><br>
+                    <div id='locationmsgorg'><span>Please select a location from the dropdown menu.</span>​</div>
+                    <input title="Full Address" type='text'
+                           ng-repeat='location in newOrganization.locations|limitTo:1'
+                           ng-model='location.full_address'
+                           typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                           typeahead-on-select='setLocation(location, $item)' typeahead-editable='false'
+                           ng-change='addLocation(newOrganization.locations)'
+                           ng-enter-blur-org='{{newOrganization.locations}}'><br>
+                    <input title="Organization Type" type="radio" id='cb1' class="radio3 for-profit-background"
+                           ng-model='newOrganization.type' value="For-Profit"><label for="cb1">For-Profit</label>
+                    <input title="New Organization" type="radio" id='cb2' class="radio3 government-background"
+                           ng-model='newOrganization.type' value="Government"><label for="cb2">Government</label>
+                    <input title="New Organization Type" type="radio" id='cb3' class="radio3 non-profit-background"
+                           ng-model='newOrganization.type' value="Non-Profit"><label for="cb3">Non-Profit</label>
                 </div>
-                <button ng-click="submit()"
-                        ng-disabled='!isValid()'>continue
-                </button>
             </div>
-        </div>
-        <div class="step-container">
-            <div id="step2">
-                <!--Location-->
-                <label for="location">Where are you based?</label><br>
-                <div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
-                <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
-                       ng-model='location.full_address'
-                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                       typeahead-on-select='setLocation(location, $item)'
-                       typeahead-editable='false'
-                       ng-change='addLocation(editEntity.locations)'
-                       ng-enter-blur='{{editEntity.locations}}'
-                       id="location">
+            <!--Member vs. Guests-->
+            <label for="member"><br>
+                <input id="member"
+                       type="radio"
+                       ng-model="editEntity.isGuest"
+                       ng-value="false"
+                       name="string">Member
+            </label>
+            <label for="guest"><br>
+                <input id="guest"
+                       type="radio"
+                       ng-model="editEntity.isGuest"
+                       ng-value="true"
+                       name="string">Guest
+            </label>
+            <div ng-if="editEntity.isGuest">
+                <label for="guestHost">Who are you here to see?</label><br>
+                <input type='text'
+                       name='guestHost'
+                       ng-model='editEntity.guestHost'
+                       required
+                       id="guestHost">
+            </div>
+            <!--Location-->
+            <label for="location">Where are you based?</label><br>
+            <div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
+            <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
+                   ng-model='location.full_address'
+                   typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                   typeahead-on-select='setLocation(location, $item)'
+                   typeahead-editable='false'
+                   ng-change='addLocation(editEntity.locations)'
+                   ng-enter-blur='{{editEntity.locations}}'
+                   id="location">
+            <label>What type of work does your organization do?</label><br>
+            <div id='locationmsg'><span>Choose as many as you like.</span>​</div>
+            <div ng-repeat='category in editCategories'>
+                <label for="workType:{{category.name}}">
+                <input id='workType:{{category.name}}'
+                 type='checkbox'
+                 ng-model='category.enabled'
+                 required
+                 id="categories"/>
+            {{category.name}}
+            </label>
+            </div>
                 <!--Collaborations-->
                 <label>Tell us who you've collaborated with (e.g. Code for America, Microsoft, Tim
                     O'Reilly...)</label><br>
@@ -79,7 +106,8 @@
                             <span>{{collaboration.entity}}</span><span class="xCLose">&#10006</span>
                         </div>
                     </div>
-                    <input title="Edit Collaborations" type='text' ng-model='editEntity.collaborations[editEntity.collaborations.length-1].entity'
+                    <input title="Edit Collaborations" type='text'
+                           ng-model='editEntity.collaborations[editEntity.collaborations.length-1].entity'
                            typeahead='entity.name as entity.name for entity in entities | filter:{name: $viewValue} | limitTo:8'
                            ng-enter-blur-col='{{editEntity.collaborations[editEntity.collaborations.length-1].entity}}'
                            typeahead-on-select='setCollaboration($item, editEntity.collaborations[editEntity.collaborations.length-1])'
@@ -89,30 +117,36 @@
                 <input type='text'
                        ng-model='editEntity.twitter_handle'
                        id="newTwitterEntity"><br>
-                <div id="waitMessage" ng-if="waitingForResponse"><span>Adding Organization</span><span
-                        class="one">.</span><span class="two">.</span><span class="three">.</span>​
+                <div id="waitMessage"
+                     ng-if="waitingForResponse">
+                    <span>Adding Organization</span>
+                    <span class="one">.</span>
+                    <span class="two">.</span>
+                    <span class="three">.</span>​
                 </div>
-                <button ng-click="add(false)" class="buttonadd"
-                        ng-disabled='!isValidAdd()'>Check In</button>
-                <button ng-click = "add(true)"
+                <button ng-click="add(false); checkinTime(timestamp);"
+                        class="buttonadd"
+                        ng-disabled='!isValidAdd()'>Check In
+                </button>
+                <button ng-click="add(true)"
                         ng-disabled='!isValidAdd()'
                         class="civicgraph-save">submit without saving to civicgraph.io
                 </button>
             </div>
-        </div>
-        <div class="step-container">
-            <div id="step3">
-                <img src="../../img/greenchecked.png" alt="success">
-                <br>
-                <h2>You're checked in!</h2>
-                <h3>Go to civicgraph.io to view and edit your network!</h3>
+            <div class="step-container" ng-hide="!isSaving">
+                <div id="step3">
+                    <img src="../../img/greenchecked.png" alt="success">
+                    <br>
+                    <h2>You're checked in!</h2>
+                    <h3>Go to civicgraph.io to view and edit your network!</h3>
+                </div>
             </div>
-        </div>
     </form>
 </div>
+
 <script type="text/javascript">
     $(document).ready(function () {
-        document.getElementById("date").innerHTML= Date();
+        document.getElementById("date").innerHTML = Date();
         $(this).scrollTop(0);
         $(':input').on('keydown', function (e) {
             if (e.which == 9) {

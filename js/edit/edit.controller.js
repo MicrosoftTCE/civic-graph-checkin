@@ -10,6 +10,7 @@
     ];
 
     function controller($scope, $http, $timeout, _) {
+        $scope.isSaving          = false;
         $scope.updating          = false;
         $scope.error             = false;
         $scope.existsInArray     = function (string, array) {
@@ -48,6 +49,13 @@
             $scope.removeEmpty($scope.editEntity);
             $scope.savetoDB($scope.editEntity, optOut);
             $("html, body").animate({scrollTop: $(window).height() * 2}, 600);
+        };
+
+        //Logs user timestamp during check-in
+        $scope.checkinTime   = function () {
+            console.log(Date());
+            $scope.timestamp = Date();
+
         };
 
         $scope.isValid = function () {
@@ -103,7 +111,7 @@
                     return response.data.resourceSets[0].resources;
                 });
         };
-        $scope.autoSetAdress    = function (search, entity) {
+        $scope.autoSetAddress    = function (search, entity) {
             return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {
                     params: {
                         query  : search,
@@ -298,8 +306,10 @@
         $scope.savetoDB       = function (entity, optOut) {
             console.log(JSON.stringify({'entity': entity}));
             $scope.updating = true;
+            $scope.isSaving = true;
             $http.post('api/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
+                    $scope.isSaving = false;
                     $scope.dataToEntities(response);
                     document.getElementById("nEntityForm").reset();
                     $scope.editEntity           = $scope.newEntity();
