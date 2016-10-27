@@ -14,7 +14,7 @@
                         return;
                     }
                     if (!scope.editEntity.locations[0].full_address) {
-                        scope.autoSetAdress(this.value, scope.editEntity);
+                        scope.autoSetAddress(this.value, scope.editEntity);
                         $('#locationmsg').show();
                     }
                     else {
