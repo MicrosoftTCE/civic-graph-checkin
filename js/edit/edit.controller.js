@@ -11,6 +11,7 @@
 
     function controller($scope, $http, $timeout, _) {
         $scope.isSaving          = false;
+        $scope.showSecondPart    = false;
         $scope.updating          = false;
         $scope.error             = false;
         $scope.existsInArray     = function (string, array) {
@@ -29,7 +30,7 @@
 
         $scope.employerFound = false;
         $scope.submit        = function () {
-            console.log($scope.templateShown);
+            // console.log($scope.templateShown);
             if (!$scope.editEntity.employments[0].entity_id
                 && $scope.editEntity.employments[0].entity && !$scope.newOrganization.type) {
                 return false;
@@ -46,9 +47,10 @@
         $scope.add           = function (optOut) {
             console.log(optOut);
             $scope.templateShown = false;
+            $scope.removeEmpty($scope.newOrganization);
+            $scope.saveOrgToDB($scope.newOrganization);
             $scope.removeEmpty($scope.editEntity);
             $scope.savetoDB($scope.editEntity, optOut);
-            $("html, body").animate({scrollTop: $(window).height() * 2}, 600);
         };
 
         //Logs user timestamp during check-in
@@ -59,30 +61,34 @@
         };
 
         $scope.isValid = function () {
-            // console.log($scope.editEntity)
-            var valid = false;
-            // if ($scope.newEntity.name && $scope.newEntity.location && $scope.newEntity.type){
-            if ($scope.editEntity.name
-                && !$scope.templateShown
-                && $scope.newOrganization.name) {
-                valid = true;
-            } else if ($scope.editEntity.name && $scope.newOrganization.name
-                       && $scope.newOrganization.type
-                       && $scope.newOrganization.locations[0].full_address) {
-                valid = true;
-            }
-            return valid;
+            var validName = !!$scope.editEntity.name,
+                validOrg = $scope.newOrganization.name
+                    && $scope.newOrganization.type
+                    && $scope.newOrganization.locations[0].full_address,
+                validGuest = !$scope.editEntity.isGuest || ($scope.editEntity.isGuest && $scope.editEntity.guestHost);
+            return validName && validOrg && validGuest;
+        };
+
+        $scope.continueForm = function () {
+            $scope.showSecondPart = true;
+
         };
 
         $scope.isValidAdd = function () {
-            var valid = false;
-            if ($scope.editEntity.locations[0].full_address && !$scope.waitingForResponse) {
-                valid = true;
-            }
-            return valid;
+            return $scope.editEntity.locations[0].full_address && !$scope.waitingForResponse;
         };
 
+        $scope.updateMemberStatus = function () {
+            $scope.showSecondPart = !isRegisteredMember();
+        };
+
+        function isRegisteredMember() {
+            var validLocation=$scope.editEntity.locations && $scope.editEntity.locations[0] && $scope.editEntity.locations[0].full_address;
+            return($scope.editEntity.name && validLocation && !$scope.editEntity.isGuest);
+        }
+
         $scope.onSelect         = function ($item) {
+            $scope.isRegisteredMember = !$scope.editEntity.isGuest;
             if ($item.employments.length >= 1) {
                 $scope.editEntity.employments[0] = $item.employments[0];
                 $scope.employerFound             = true;
@@ -237,7 +243,6 @@
             $scope.addConnection(entity.data_received);
             $scope.addConnection(entity.collaborations);
             $scope.addConnection(entity.employments);
-            $scope.addConnection(entity.relations);
             $scope.addFinance(entity.revenues);
             $scope.addFinance(entity.expenses);
         };

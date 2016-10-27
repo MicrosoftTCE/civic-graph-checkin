@@ -46,17 +46,11 @@
                 "locations"           : [],
                 "name"                : "",
                 "nickname"            : null,
-                "relations"           : [],
                 "revenues"            : [],
                 "twitter_handle"      : null,
                 "type"                : 'Individual',
                 "url"                 : null,
-                "index"               : null,
-                "weight"              : null,
-                "x"                   : null,
-                "y"                   : null,
-                "px"                  : null,
-                "py"                  : null
+                "isGuest"             : true
             };
         };
         $scope.editEntity           = $scope.newEntity();
@@ -108,6 +102,7 @@
             .success(function (data) {
                 $scope.dataToEntities(data);
             });
+        // $scope.dataToEntities([]);
         // Maybe get from database.
         $scope.entityTypes     = {
             'Government': true,

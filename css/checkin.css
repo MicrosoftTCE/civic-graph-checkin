@@ -121,7 +121,7 @@ div.top-banner p {
 	padding: 1em 1em 1em 1em;
 }
 
-.left-container{
+.left-container {
 	text-align: center;
 	height: 100vh;
 	position: fixed;
@@ -144,15 +144,23 @@ div.top-banner p {
 	height: 100vh;
 	background-color: #fafafc;
 	padding: 0 0 0 0;
-	/*background-image: url('/../img/civic_hall_bg.png');*/
-	/*opacity: 0.2;*/
+}
+
+.workType{
+	padding: .2em;
+}
+
+.work-type{
+	padding-bottom: .2em;
 }
 
 .step-container{
-	/*padding-left: 15%;*/
 	display: table;
     table-layout: fixed;
+	padding-left: 8em !important;
+	background-color: #fafafc;
 }
+
 .logo-container{
 	height:100vh;
 	padding: 0;
@@ -194,10 +202,11 @@ button[disabled]{
 	border: 1px solid #DDDDDD;
 }
 button.civicgraph-save {
-	background-color:#ffffff;
-	padding: 0%;
+	background: #fafafc;
+	padding:0;
+	padding-bottom: 5em !important;
 	margin:0%;
-	font-size: x-small;
+	font-size: small;
 	width: 75%;
 	border: 0px;
 	color: #cccccc;
@@ -214,8 +223,11 @@ input[type='text']{
     display: block;
 }
 input[type='radio']{
-	/*margin: 1% 2% 5% 5%;*/
+	margin: 1% 0% 5% 0%;
 	display: inline !important;
+}
+input[type='checkbox']{
+
 }
 #cb1 {
 	margin-left: 0;
@@ -371,10 +383,6 @@ p{
     }
 }
 
-input[type=radio] {
-    display: inline;
-    display: inline;
-}
 input[type=radio] + label::before {
     content: '';
     display: inline-block;

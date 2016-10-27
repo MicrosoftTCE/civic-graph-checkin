@@ -15,7 +15,7 @@
                         return;
                     }
                     if (!scope.newOrganization.locations[0].full_address) {
-                        scope.autoSetAdress(this.value, scope.newOrganization);
+                        scope.autoSetAddress(this.value, scope.newOrganization);
                         $('#locationmsgorg').show();
                     }
                     else {

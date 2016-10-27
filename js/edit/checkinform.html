@@ -10,6 +10,8 @@
         </div>
         <div class="step-container" ng-hide="isSaving">
             <h1>Check-In to Civic Hall</h1>
+
+            <!--Name-->
             <label for="editEntityName">Name</label><br>
             <input type='text'
                    name='entityName'
@@ -19,6 +21,8 @@
                    typeahead-on-select="onSelect($item, $model, $label)"
                    id="editEntityName">
             <div id="employerEntity" ng-class="{ 'template': templateShown}">
+
+                <!--Organization-->
                 <label for="employmentEntity">Organization</label><br>
                 <input type='text'
                        name='orgName'
@@ -50,20 +54,22 @@
                 </div>
             </div>
             <!--Member vs. Guests-->
-            <label for="member"><br>
+            <div class="guestType"><label for="member"><br>
                 <input id="member"
                        type="radio"
                        ng-model="editEntity.isGuest"
                        ng-value="false"
+                       ng-change="updateMemberStatus();"
                        name="string">Member
             </label>
-            <label for="guest"><br>
-                <input id="guest"
-                       type="radio"
-                       ng-model="editEntity.isGuest"
-                       ng-value="true"
-                       name="string">Guest
-            </label>
+                <label for="guest"><br>
+                    <input id="guest"
+                           type="radio"
+                           ng-model="editEntity.isGuest"
+                           ng-value="true"
+                           name="string">Guest
+                </label></div>
+            <br>
             <div ng-if="editEntity.isGuest">
                 <label for="guestHost">Who are you here to see?</label><br>
                 <input type='text'
@@ -72,29 +78,45 @@
                        required
                        id="guestHost">
             </div>
+            <button
+                    class="buttonContinue"
+                    type="button"
+                    ng-click="continueForm();"
+                    ng-if="!showSecondPart && editEntity.isGuest"
+                    ng-disabled="!isValid();"
+            >continue</button>
+
+            <button ng-click="add(false); checkinTime(timestamp);"
+                    class="buttonadd"
+                    ng-disabled='!isValid()'
+                    ng-if="!(editEntity.isGuest || showSecondPart)">Check In
+            </button>
+
             <!--Location-->
-            <label for="location">Where are you based?</label><br>
-            <div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
-            <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
-                   ng-model='location.full_address'
-                   typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                   typeahead-on-select='setLocation(location, $item)'
-                   typeahead-editable='false'
-                   ng-change='addLocation(editEntity.locations)'
-                   ng-enter-blur='{{editEntity.locations}}'
-                   id="location">
-            <label>What type of work does your organization do?</label><br>
-            <div id='locationmsg'><span>Choose as many as you like.</span>​</div>
-            <div ng-repeat='category in editCategories'>
-                <label for="workType:{{category.name}}">
-                <input id='workType:{{category.name}}'
-                 type='checkbox'
-                 ng-model='category.enabled'
-                 required
-                 id="categories"/>
-            {{category.name}}
-            </label>
-            </div>
+            <div ng-if="showSecondPart">
+                <label for="location">Where are you based?</label><br>
+                <div id='locationmsg'><span>Please select a location from the dropdown menu.</span>​</div>
+                <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
+                       ng-model='location.full_address'
+                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                       typeahead-on-select='setLocation(location, $item)'
+                       typeahead-editable='false'
+                       ng-change='addLocation(editEntity.locations)'
+                       ng-enter-blur='{{editEntity.locations}}'
+                       id="location">
+                <div class='work-type'><label>What type of work does your organization do?</label><br>
+                    <div id='locationmsg'><span>Choose as many as you like.</span>​</div>
+                    <div class='workType' ng-repeat='category in editCategories'>
+                        <label for="workType:{{category.name}}">
+                            <input id='workType:{{category.name}}'
+                                   type='checkbox'
+                                   ng-model='category.enabled'
+                                   required
+                                   id="categories"/>
+                            {{category.name}}
+                        </label>
+                    </div>
+                </div>
                 <!--Collaborations-->
                 <label>Tell us who you've collaborated with (e.g. Code for America, Microsoft, Tim
                     O'Reilly...)</label><br>
@@ -128,19 +150,20 @@
                         class="buttonadd"
                         ng-disabled='!isValidAdd()'>Check In
                 </button>
-                <button ng-click="add(true)"
-                        ng-disabled='!isValidAdd()'
-                        class="civicgraph-save">submit without saving to civicgraph.io
-                </button>
             </div>
-            <div class="step-container" ng-hide="!isSaving">
-                <div id="step3">
-                    <img src="../../img/greenchecked.png" alt="success">
-                    <br>
-                    <h2>You're checked in!</h2>
-                    <h3>Go to civicgraph.io to view and edit your network!</h3>
-                </div>
+            <button ng-click="add(true)"
+                    ng-disabled='!isValidAdd()'
+                    class="civicgraph-save">submit without saving to civicgraph.io
+            </button>
+        </div>
+        <div class="step-container" ng-hide="!isSaving">
+            <div id="step3">
+                <img src="../../img/greenchecked.png" alt="success">
+                <br>
+                <h2>You're checked in!</h2>
+                <h3>Go to civicgraph.io to view and edit your network!</h3>
             </div>
+        </div>
     </form>
 </div>
 
