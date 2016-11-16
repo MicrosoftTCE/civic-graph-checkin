@@ -4,8 +4,12 @@
     </div>
 </div>
 <div class="right-container col-xs-7 col-sm-7 col-md-7 col-lg-7">
+    <div ng-if="!main.isDataLoaded">
+        "data loading"
+    </div>
     <form id="nEntityForm">
-        <div class="step-container">
+        <div class="step-container"
+             ng-if="!main.isSaving">
             <h1>Check-In to Civic Hall</h1>
 
             <!-- Name -->
@@ -119,20 +123,15 @@
                 continue
             </button>
 
-            <!--<button ng-click="add(false); checkinTime(timestamp);"-->
-                    <!--class="buttonadd"-->
-                    <!--ng-disabled='!main.isValid()'-->
-                    <!--ng-if="!(editEntity.isGuest || main.showSecondPart)">Check In-->
-            <!--</button>-->
+            <button ng-click="add(false); checkinTime(timestamp);"
+                    class="buttonadd"
+                    ng-if="main.isRegisteredMember">Check In
+            </button>
 
             <!--Location-->
             <div ng-if="main.showSecondPart">
-                I'm the second part
-                <label for="location">Where are you based?</label>
-
-                <br>
-
-                <span>Please select a location from the dropdown menu.</span>​
+                <label for="location">Where are you based?</label><br>
+                <div id="locationmsg"><span>Please select a location from the dropdown menu.</span>​</div>
 
                 <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
                        ng-model='location.full_address'
@@ -204,10 +203,11 @@
                     class="civicgraph-save">submit without saving to civicgraph.io
             </button>
         </div>
+
         <div class="step-container">
             <div id="step3"
-                 ng-hide="true">
-                <img src="../../img/greenchecked.png" alt="success">
+                 ng-if="main.isSaving">
+                <img src="/img/greenchecked.png" alt="success">
                 <br>
                 <h2>You're checked in!</h2>
                 <h3>Go to civicgraph.io to view and edit your network!</h3>

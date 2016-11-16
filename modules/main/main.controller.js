@@ -27,14 +27,16 @@
 
         var main = this;
 
-        activate();
+        activate(true);
 
-        function activate() {
-            main.isDataLoaded = true;
+        function activate(queryAPI) {
+            main.isDataLoaded = false;
 
             main.isRegisteredMember = false;
 
             main.showSecondPart = false;
+
+            main.isSaving = false;
 
             main.entities     = [];
             $scope.categories = [];
@@ -91,18 +93,20 @@
             $scope.submit                     = submit;
             $scope.updateMemberStatus         = updateMemberStatus;
 
-            $http.get('api/entities')
-                .success(parseEntityResponse)
-                .error(mockResponse);
+            if(queryAPI) {
+                $http.get('api/entities')
+                    .success(parseEntityResponse)
+                    .error(mockResponse);
 
-            $http.get('api/categories')
-                .success(parseCategoryResponse)
-                .error(function (e) {
-                    if (isDef(e.info)) {
-                        console.log(e.info)
-                    }
-                    parseCategoryResponse();
-                });
+                $http.get('api/categories')
+                    .success(parseCategoryResponse)
+                    .error(function (e) {
+                        if (isDef(e.info)) {
+                            console.log(e.info)
+                        }
+                        parseCategoryResponse();
+                    });
+            }
 
         }
 
@@ -253,7 +257,7 @@
         }
 
         function isValidAdd() {
-            return $scope.editEntity.locations[0].full_address && !$scope.waitingForResponse;
+            return $scope.editEntity.locations[0].full_address;
         }
 
         function setRegisteredToFalse() {
@@ -398,7 +402,7 @@
             $http.post('api/save', {'entity': entity})
                 .success(function (response) {
                     $scope.waitingForResponse = false;
-                    $scope.parseEntityResponse(response);
+                    parseEntityResponse(response);
                     addOrgToEntity();
                 })
                 .error(function () {
@@ -415,17 +419,19 @@
 
         function savetoDB(entity, optOut) {
             console.log(JSON.stringify({'entity': entity}));
-            $scope.updating = true;
+            main.isSaving = true;
             $http.post('api/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
-                    $scope.parseEntityResponse(response);
+                    parseEntityResponse(response);
                     document.getElementById("nEntityForm").reset();
-                    $scope.editEntity           = EntityFactory.getInstance();
-                    $scope.newOrganization      = EntityFactory.getInstance();
-                    $scope.newOrganization.type = null;
-                    addBlankFields($scope.editEntity);
-                    addBlankFields($scope.newOrganization);
-                    $("html, body").animate({scrollTop: 0}, 1000);
+                    activate(false);
+                    // $scope.editEntity           = EntityFactory.getInstance();
+                    // main.isRegisteredMember = false;
+                    // $scope.newOrganization      = EntityFactory.getInstance();
+                    // $scope.newOrganization.type = null;
+                    // addBlankFields($scope.editEntity);
+                    // addBlankFields($scope.newOrganization);
+                    // main.isSaving = false;
                 })
                 .error(function (data, status, headers, config) {
                     window.location.reload();
@@ -434,6 +440,7 @@
                     console.log(headers);
                     console.log(config);
                     $scope.error = true;
+                    main.isSaving = false;
                     $timeout(function () {
                         $scope.error    = false;
                         $scope.updating = false;
