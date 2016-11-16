@@ -1,14 +1,17 @@
 {
-  "dev": {
-    "folder": "build/",
-    "src": {
-      "js":[
-        "check-in.module.js",
-        "js/**/*.js"
-      ],
-      "css":[
-        "css/**/*.css"
-      ]
-    }
+  "src": {
+    "js":[
+      "check-in.module.js",
+      "modules/**/*.js"
+    ],
+    "css":[
+      "css/**/*.css",
+      "modules/**/*.css"
+    ]
+  },
+  "build": {
+    "dir": "build/",
+    "js": "app.min.js",
+    "css": "app.min.css"
   }
 }
