@@ -10,6 +10,7 @@
             scope   : true,
             link    : function (scope, element) {
                 element.bind("keydown keypress blur", function (event) {
+                    console.log(scope.editEntity);
                     if (!(event.which === 13 || event.type === "blur")) {
                         return;
                     }
