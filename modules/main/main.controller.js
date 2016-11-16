@@ -38,7 +38,7 @@
 
             main.isSaving = false;
 
-            main.entities     = [];
+            main.entities = [];
             $scope.categories = [];
 
             // Get from database.
@@ -48,63 +48,65 @@
             $scope.editEntity.isGuest = true;
             // self.showSecondPart       = !isRegisteredMember();
 
-            $scope.newOrganization      = EntityFactory.getInstance();
+            $scope.newOrganization = EntityFactory.getInstance();
             $scope.newOrganization.type = null;
 
-            $scope.employerFound      = false;
-            $scope.error              = false;
-            $scope.templateShown      = false;
-            $scope.updating           = false;
+            $scope.employerFound = false;
+            $scope.error = false;
+            $scope.templateShown = false;
+            $scope.updating = false;
             $scope.waitingForResponse = false;
 
             $scope.categories = (Array.isArray($scope.categories) ? $scope.categories : []);
 
             $scope.editCategories = $scope.categories.map(function (c) {
                 return {
-                    'name'   : c.name,
+                    'name': c.name,
                     'enabled': isDef($scope.editEntity.categories)
                         ? $scope.editEntity.categories
                         : {'name': c.name},
-                    'id'     : c.id
+                    'id': c.id
                 };
             });
 
             addBlankFields($scope.editEntity);
             addBlankFields($scope.newOrganization);
 
-            main.continueForm               = continueForm;
-            main.isValid                    = isValid;
-            main.setRegisteredToFalse       = setRegisteredToFalse;
+            main.continueForm = continueForm;
+            main.isValid = isValid;
+            main.setRegisteredToFalse = setRegisteredToFalse;
             main.setCurrentEntityToSelected = setCurrentEntityToSelected;
 
-            $scope.add                        = add;
-            $scope.addLocation                = addLocation;
-            $scope.addNameToOrg               = addNameToOrg;
-            $scope.addressSearch              = addressSearch;
-            $scope.autoSetAddress             = autoSetAddress;
-            $scope.checkinTime                = checkinTime;
-            $scope.checkOrganization          = checkOrganization;
-            $scope.getCollaboratorColor       = getCollaboratorColor;
-            $scope.isValidAdd                 = isValidAdd;
-            $scope.removeCollaboration        = removeCollaboration;
-            $scope.setCollaboration           = setCollaboration;
-            $scope.setConnection              = setConnection;
-            $scope.setLocation                = setLocation;
-            $scope.submit                     = submit;
-            $scope.updateMemberStatus         = updateMemberStatus;
+            $scope.add = add;
+            $scope.addLocation = addLocation;
+            $scope.addNameToOrg = addNameToOrg;
+            $scope.addressSearch = addressSearch;
+            $scope.autoSetAddress = autoSetAddress;
+            $scope.checkinTime = checkinTime;
+            $scope.checkOrganization = checkOrganization;
+            $scope.getCollaboratorColor = getCollaboratorColor;
+            $scope.isValidAdd = isValidAdd;
+            $scope.removeCollaboration = removeCollaboration;
+            $scope.setCollaboration = setCollaboration;
+            $scope.setConnection = setConnection;
+            $scope.setLocation = setLocation;
+            $scope.submit = submit;
+            $scope.updateMemberStatus = updateMemberStatus;
 
-            if(queryAPI) {
+            if (queryAPI) {
                 $http.get('api/entities')
-                    .success(parseEntityResponse)
-                    .error(mockResponse);
-
-                $http.get('api/categories')
-                    .success(parseCategoryResponse)
-                    .error(function (e) {
-                        if (isDef(e.info)) {
-                            console.log(e.info)
-                        }
-                        parseCategoryResponse();
+                    .then(function(resp){
+                        parseEntityResponse(resp.data);
+                    }, mockResponse)
+                    .then(function () {
+                        $http.get('api/categories')
+                            .success(parseCategoryResponse)
+                            .error(function (e) {
+                                if (isDef(e.info)) {
+                                    console.log(e.info);
+                                }
+                                parseCategoryResponse();
+                            });
                     });
             }
 
@@ -181,7 +183,7 @@
                 return item.name === $scope.editEntity.employments[0].entity;
             });
 
-            $scope.editEntity.employments[0].entity    = newOrg.name;
+            $scope.editEntity.employments[0].entity = newOrg.name;
             $scope.editEntity.employments[0].entity_id = newOrg.id;
         }
 
@@ -206,7 +208,7 @@
             if (isDef(e.info)) {
                 console.log(e.info);
             }
-            var mockEntity  = EntityFactory.getInstance();
+            var mockEntity = EntityFactory.getInstance();
             mockEntity.name = "Briana Vecchione";
 
             var mockEntityList = [mockEntity];
@@ -247,12 +249,12 @@
         }
 
         function isValid() {
-            var validName  = !!$scope.editEntity.name,
-                validOrg   = $scope.newOrganization.name
-                             && $scope.newOrganization.type
-                             && $scope.newOrganization.locations[0].full_address,
+            var validName = !!$scope.editEntity.name,
+                validOrg = $scope.newOrganization.name
+                    && $scope.newOrganization.type
+                    && $scope.newOrganization.locations[0].full_address,
                 validGuest = !$scope.editEntity.isGuest || ($scope.editEntity.isGuest
-                                                            && $scope.editEntity.guestHost);
+                    && $scope.editEntity.guestHost);
             return validName && validOrg && validGuest;
         }
 
@@ -274,7 +276,7 @@
 
             if (isNotEmptyArray(item.employments)) {
                 $scope.editEntity.employments[0] = item.employments[0];
-                $scope.employerFound             = true;
+                $scope.employerFound = true;
             }
 
             if (isNotEmptyArray(item.locations)) {
@@ -288,18 +290,28 @@
             $scope.categories = (isDef(data) && Array.isArray(data.categories))
                 ? data.categories
                 : [];
+            $scope.editCategories = $scope.categories.map(function (c) {
+                return {
+                    'name': c.name,
+                    'enabled': isDef($scope.editEntity.categories)
+                        ? $scope.editEntity.categories
+                        : {'name': c.name},
+                    'id': c.id
+                };
+            });
         }
 
         function parseEntityResponse(data) {
+            console.log(data);
             if (!isDef(data) || !Array.isArray(data.nodes)) {
-                main.entities      = [];
+                main.entities = [];
                 $scope.entityNames = [];
                 return;
             }
 
             main.isDataLoaded = true;
 
-            main.entities      = data.nodes;
+            main.entities = data.nodes;
             $scope.entityNames = _.uniq(_.pluck(main.entities, 'name'))
                 .map(function (name) {
                     return name.toLowerCase();
@@ -312,10 +324,10 @@
         function queryVirtualEarthMap(search) {
             return $http.jsonp('http://dev.virtualearth.net/REST/v1/Locations', {
                 params: {
-                    query  : search,
-                    key    : 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
+                    query: search,
+                    key: 'Ai58581yC-Sr7mcFbYTtUkS3ixE7f6ZuJnbFJCVI4hAtW1XoDEeZyidQz2gLCCyD',
                     'jsonp': 'JSON_CALLBACK',
-                    'incl' : 'ciso2'
+                    'incl': 'ciso2'
                 }
             });
         }
@@ -398,7 +410,7 @@
 
         function saveOrgToDB(entity) {
             $scope.waitingForResponse = true;
-            $scope.updating           = true;
+            $scope.updating = true;
             $http.post('api/save', {'entity': entity})
                 .success(function (response) {
                     $scope.waitingForResponse = false;
@@ -410,7 +422,7 @@
                     console.log('ERROR');
                     $scope.error = true;
                     $timeout(function () {
-                        $scope.error    = false;
+                        $scope.error = false;
                         $scope.updating = false;
                         addBlankFields();
                     }, 2000);
@@ -442,7 +454,7 @@
                     $scope.error = true;
                     main.isSaving = false;
                     $timeout(function () {
-                        $scope.error    = false;
+                        $scope.error = false;
                         $scope.updating = false;
                         addBlankFields($scope.editEntity);
                         addBlankFields($scope.newOrganization);
@@ -468,20 +480,20 @@
             location.address_line =
                 'addressLine' in data.address && $scope.editEntity.type !== 'Individual'
                     ? data.address.addressLine : null;
-            location.locality     = 'locality' in data.address ? data.address.locality : null;
-            location.district     =
+            location.locality = 'locality' in data.address ? data.address.locality : null;
+            location.district =
                 'adminDistrict' in data.address ? data.address.adminDistrict : null;
-            location.postal_code  =
+            location.postal_code =
                 'postalCode' in data.address ? data.address.postalCode : null;
-            location.country      =
+            location.country =
                 'countryRegion' in data.address ? data.address.countryRegion : null;
             location.country_code =
                 'countryRegionIso2' in data.address ? data.address.countryRegionIso2 : null;
-            location.coordinates  = 'point' in data ? data.point.coordinates : null;
+            location.coordinates = 'point' in data ? data.point.coordinates : null;
             if ($scope.editEntity.type === 'Individual') {
                 location.full_address =
                     location.locality ? location.district ? location.locality + ', '
-                                                            + location.district
+                    + location.district
                         : location.locality
                         : location.country;
             }
@@ -514,9 +526,9 @@
     function Config($routeProvider) {
         $routeProvider
             .when("/", {
-                "controller"  : "MainController",
+                "controller": "MainController",
                 "controllerAs": "main",
-                "templateUrl" : "/modules/main/main.template.html"
+                "templateUrl": "/modules/main/main.template.html"
             })
     }
 
