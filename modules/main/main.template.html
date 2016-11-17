@@ -116,7 +116,7 @@
 
             <button type="button"
                     class="buttonContinue"
-                    ng-if="!main.showSecondPart && editEntity.isGuest"
+                    ng-if="(!main.showSecondPart && editEntity.isGuest) || main.isNewMember();"
                     ng-click="main.continueForm();"
                     ng-disabled="!main.isValid();"
             >
@@ -125,7 +125,7 @@
 
             <button ng-click="add(false); checkinTime(timestamp);"
                     class="buttonadd"
-                    ng-if="main.isRegisteredMember">Check In
+                    ng-if="main.isRegisteredMember && !main.showSecondPart">Check In
             </button>
 
             <!--Location-->
@@ -195,12 +195,12 @@
                 </div>
                 <button ng-click="add(false); checkinTime(timestamp);"
                         class="buttonadd"
-                        ng-disabled='!main.isValidAdd()'>Check In
+                        ng-disabled='!main.isValid()'>Check In
                 </button>
             </div>
-            <button ng-click="add(true)"
-                    ng-disabled='!isValidAdd()'
-                    class="civicgraph-save">submit without saving to civicgraph.io
+            <button ng-click="add(true); checkinTime(timestamp)"
+                    ng-disabled='!main.isValid()'
+                    class="buttonadd">check in without saving to civicgraph.io
             </button>
         </div>
 

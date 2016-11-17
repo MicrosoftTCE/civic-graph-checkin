@@ -73,6 +73,7 @@
             addBlankFields($scope.newOrganization);
 
             main.continueForm = continueForm;
+            main.isNewMember = isNewMember;
             main.isValid = isValid;
             main.setRegisteredToFalse = setRegisteredToFalse;
             main.setCurrentEntityToSelected = setCurrentEntityToSelected;
@@ -176,6 +177,7 @@
 
         function addNameToOrg() {
             $scope.newOrganization.name = $scope.editEntity.employments[0].entity;
+            $scope.editEntity.employments[0].entity_id = null;
         }
 
         function addOrgToEntity() {
@@ -248,13 +250,19 @@
             }
         }
 
+        function isNewMember() {
+            return !($scope.editEntity.isGuest || isRegisteredMember);
+        }
+
         function isValid() {
             var validName = !!$scope.editEntity.name,
-                validOrg = $scope.newOrganization.name
+                validOrg = ($scope.newOrganization.name
                     && $scope.newOrganization.type
-                    && $scope.newOrganization.locations[0].full_address,
+                    && $scope.newOrganization.locations[0].full_address)
+                    || $scope.editEntity.employments[0].entity_id,
                 validGuest = !$scope.editEntity.isGuest || ($scope.editEntity.isGuest
                     && $scope.editEntity.guestHost);
+
             return validName && validOrg && validGuest;
         }
 
@@ -511,7 +519,7 @@
             if ($scope.newOrganization.name && $scope.newOrganization.type
                 && $scope.newOrganization.locations[0].full_address) {
                 removeEmpty($scope.newOrganization);
-                $scope.saveOrgToDB($scope.newOrganization);
+                saveOrgToDB($scope.newOrganization);
             }
             $("html, body").animate({scrollTop: $(window).height()}, 600);
             return false;
