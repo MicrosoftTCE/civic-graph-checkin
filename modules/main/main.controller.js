@@ -252,9 +252,7 @@
 
         function isNewMember() {
             //if you're not a guest and you're not a registered member
-            if (!$scope.editEntity.isGuest && !main.isRegisteredMember) {
-                $('#newmembermsg').hide();
-            }
+            $('#newmembermsg').hide();
             return !($scope.editEntity.isGuest || main.isRegisteredMember);
         }
 

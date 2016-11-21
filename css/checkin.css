@@ -111,7 +111,7 @@ p {
 }
 
 .guestType label {
-	padding-left: 4em;
+	padding-left: 5em;
 	padding-bottom: 1em;
 }
 
@@ -146,7 +146,7 @@ div.top-banner p {
 }
 
 .right-container{
-	margin-left: 41.5%;
+	margin-left: 50%;
 	height: 100vh;
 	background-color: #fafafc;
 	padding: 0 0 0 0;
@@ -198,6 +198,7 @@ button{
 	background-color:  #66ad1c;
 	padding: 4%;
 	font-weight: 200;
+	font-size: smaller;
 	width: 70%;
 	border-width:0;
 	/*border: 1px solid #9F9F9F;*/
@@ -215,7 +216,7 @@ button.civicgraph-save {
 	padding:0;
 	padding-bottom: 5em !important;
 	margin:0%;
-	font-size: small;
+	font-size: smaller;
 	width: 75%;
 	border: 0px;
 	color: #cccccc;
@@ -233,7 +234,7 @@ input[type='text']{
     margin: 1% 0% 5% 0%;
     font-size: 1em;
 	font-weight: 100;
-    padding-left: 20px;
+    padding-left: 0.5em;
     display: block;
 }
 
@@ -260,6 +261,11 @@ p{
 	font-size: 1.5em;
 	display: inline;
 }
+
+a.ng-scope.ng-binding {
+	padding-left: 0.5em;
+}
+
 #step1{
 /*	height: 100vh;
 */	/*display: none;*/
@@ -276,7 +282,6 @@ p{
 .template {
 	background-color: #EEEFF1;
 	padding: 5%;
-	border-radius: 10px;
 	width: 85%;
 }
 
@@ -329,6 +334,15 @@ p{
 	color: white;
 	font-size: 0.8em;
 }
+.dropdown-menu li a {
+	text-decoration: none;
+	font-weight: 100;
+}
+
+/*.dropdown-menu .active{*/
+	/*background-color: #1792e4;*/
+/*}*/
+
 #waitMessage {
 	color: #66ad1c;
 	font-style: italic;
@@ -342,7 +356,13 @@ p{
 	font-size: 0.8em;
 }
 #locationmsgorg {
-	display: none;
+	padding: 5px 0px;
+	color: #66ad1c;
+	font-style: italic;
+	font-size: 0.8em;
+}
+
+#worktypemsg {
 	padding: 5px 0px;
 	color: #66ad1c;
 	font-style: italic;
@@ -413,7 +433,7 @@ input[type=radio] + label::before {
     display: inline-block;
     background-color: white;
     border: 3px solid white;
-    box-shadow: 0 0 0 2px #DDDDDD;
+    box-shadow: 0 0 0 1px #DDDDDD;
     border-radius: 50%;
     margin: 0 0.5em;
     margin-top: -1px;
@@ -421,12 +441,18 @@ input[type=radio] + label::before {
 }
 input[type=radio]:checked + label::before {
     border: 3px solid white;
-    box-shadow: 0 0 0 2px #DDDDDD;
+    box-shadow: 0 0 0 1px #DDDDDD;
 }
 .radio3 + label::before {
     width: 1.2em;
     height: 1.2em;
 }
+
+label.collabs {
+	padding-top: 1em;
+	width: 70%;
+}
+
 input.for-profit-background[type=radio]:checked + label::before {
     background-color: rgb(127, 186, 0);
 }
@@ -436,3 +462,4 @@ input.non-profit-background[type=radio]:checked + label::before {
 input.government-background[type=radio]:checked + label::before {
     background-color: rgb(242, 80, 34);
 }
+

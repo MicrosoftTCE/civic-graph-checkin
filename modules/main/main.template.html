@@ -1,9 +1,9 @@
-<div class="left-container col-xs-5 col-sm-5 col-md-5 col-lg-5">
+<div class="left-container col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div class="logo-container">
         <img src="/img/civichall.png">
     </div>
 </div>
-<div class="right-container col-xs-7 col-sm-7 col-md-7 col-lg-7">
+<div class="right-container col-xs-6 col-sm-6 col-md-6 col-lg-6">
     <div ng-if="!main.isDataLoaded">
         "data loading"
     </div>
@@ -15,9 +15,6 @@
             <!-- Name -->
             <label for="editEntityName">Name</label>
             <div id='newmembermsg'><span>Creating New Member</span>​</div>
-
-            <br>
-
             <input type='text'
                    name='entityName'
                    ng-model='editEntity.name'
@@ -147,7 +144,7 @@
 
                 <div class='work-type'><label>What type of work does your organization
                     do?</label><br>
-                    <div id='locationmsg'><span>Choose as many as you like.</span>​</div>
+                    <div id='worktypemsg'><span>Choose as many as you like.</span>​</div>
                     <div class='workType' ng-repeat='category in editCategories'>
                         <label for="workType:{{category.name}}">
                             <input id='workType:{{category.name}}'
@@ -161,7 +158,7 @@
                 </div>
 
                 <!--Collaborations-->
-                <label>Tell us who you've collaborated with (e.g. Code for America, Microsoft,
+                <label class="collabs">Tell us who you've collaborated with (e.g. Code for America, Microsoft,
                     Tim
                     O'Reilly...)</label>
 
