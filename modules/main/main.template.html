@@ -14,6 +14,7 @@
 
             <!-- Name -->
             <label for="editEntityName">Name</label>
+            <div id='newmembermsg'><span>Creating New Member</span>​</div>
 
             <br>
 
@@ -79,6 +80,7 @@
                            ng-value="false"
                            ng-change="main.updateMemberStatus();"
                            name="string"
+                           class="radio3 for-profit-background"
                     />
                     Member
                 </label>
@@ -93,6 +95,7 @@
                            ng-value="true"
                            ng-change="main.updateMemberStatus();"
                            name="string"
+                           class="radio3 for-profit-background"
                     />
                     Guest
                 </label>
@@ -193,6 +196,14 @@
                     <span class="two">.</span>
                     <span class="three">.</span>​
                 </div>
+
+                <!--<label class="checkbox">-->
+                    <!--<input type="checkbox"-->
+                           <!--ng-click="add(true); checkinTime(timestamp)"-->
+                           <!--ng-disabled='!main.isValid()'>-->
+                    <!--check in without saving to civicgraph.io-->
+                <!--</label>-->
+
                 <button ng-click="add(false); checkinTime(timestamp);"
                         class="buttonadd"
                         ng-disabled='!main.isValid()'>Check In

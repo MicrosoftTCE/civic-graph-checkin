@@ -251,7 +251,11 @@
         }
 
         function isNewMember() {
-            return !($scope.editEntity.isGuest || isRegisteredMember);
+            //if you're not a guest and you're not a registered member
+            if (!$scope.editEntity.isGuest && !main.isRegisteredMember) {
+                $('#newmembermsg').hide();
+            }
+            return !($scope.editEntity.isGuest || main.isRegisteredMember);
         }
 
         function isValid() {
@@ -271,7 +275,6 @@
         }
 
         function setRegisteredToFalse() {
-            console.log("I happen");
             main.isRegisteredMember = false;
         }
 
