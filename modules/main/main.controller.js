@@ -27,6 +27,7 @@
 
         var main = this;
 
+        //disables query
         activate(true);
 
         function activate(queryAPI) {
@@ -36,6 +37,7 @@
 
             main.showSecondPart = false;
 
+            //to edit css saving
             main.isSaving = false;
 
             main.entities = [];
@@ -118,7 +120,7 @@
         }
 
         function add(optOut) {
-            console.log(optOut);
+            // console.log(optOut);
             $scope.templateShown = false;
             removeEmpty($scope.newOrganization);
             saveOrgToDB($scope.newOrganization);
@@ -461,9 +463,9 @@
             main.isSaving = true;
             $http.post('api/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
-                    parseEntityResponse(response);
                     document.getElementById("nEntityForm").reset();
                     activate(false);
+                    parseEntityResponse(response);
                     // $scope.editEntity           = EntityFactory.getInstance();
                     // main.isRegisteredMember = false;
                     // $scope.newOrganization      = EntityFactory.getInstance();
