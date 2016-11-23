@@ -114,10 +114,9 @@
                 />
             </div>
 
-            <!--checkbox-->
             <label class="checkbox">
                 <input type="checkbox"
-                       ng-click="add(true); checkinTime(timestamp)"
+                       ng-model="main.optOut"
                        ng-disabled='!main.isValid()'>
                 Check in without saving to civicgraph.io
             </label>
@@ -131,7 +130,7 @@
                 continue
             </button>
 
-            <button ng-click="add(false); checkinTime(timestamp);"
+            <button ng-click="add(main.optOut);"
                     class="buttonadd"
                     ng-if="main.isRegisteredMember && !main.showSecondPart">Check In
             </button>
@@ -202,23 +201,18 @@
                     <span class="three">.</span>​
                 </div>
 
-                <!--checkbox-->
                 <label class="checkbox">
                     <input type="checkbox"
-                           ng-click="add(true); checkinTime(timestamp)"
+                           ng-model="main.optOut"
                            ng-disabled='!main.isValid()'>
                     Check in without saving to civicgraph.io
                 </label>
 
-                <button ng-click="add(false); checkinTime(timestamp);"
+                <button ng-click="add(main.optOut);"
                         class="buttonadd"
                         ng-disabled='!main.isValid()'>Check In
                 </button>
             </div>
-            <button ng-click="add(true); checkinTime(timestamp)"
-                    ng-disabled='!main.isValid()'
-                    class="buttonadd">check in without saving to civicgraph.io
-            </button>
         </div>
 
         <div class="step-container">

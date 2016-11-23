@@ -15,7 +15,7 @@
         return gulp.src(config.src.js)
             .pipe(jshint())
             .pipe(sourceMaps.init())
-            // .pipe(minify())
+            .pipe(minify())
             .pipe(concat(config.build.js), concatConfig)
             .pipe(sourceMaps.write())
             .pipe(gulp.dest(config.build.dir));

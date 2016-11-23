@@ -39,6 +39,9 @@
             main.isSaving = false;
 
             main.entities = [];
+
+            main.optOut = false;
+
             $scope.categories = [];
 
             // Get from database.
