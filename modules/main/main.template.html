@@ -143,7 +143,7 @@
                        ng-enter-blur='{{editEntity.locations}}'
                        id="location">
 
-                <div class='work-type'><label>What type of work does your organization
+                <div class='work-type'><label>What type of work do you
                     do?</label><br>
                     <div id='worktypemsg'><span>Choose as many as you like.</span>​</div>
                     <div class='workType' ng-repeat='category in editCategories'>
@@ -214,7 +214,7 @@
                  ng-if="main.isSaving">
                 <img src="/img/greenchecked.png" alt="success">
                 <br>
-                <h2>You're checked in!</h2>
+                <h2 class='confirm-checkin'>You're checked in!</h2>
                 <!--<h3>Go to civicgraph.io to view and edit your network!</h3>-->
             </div>
         </div>

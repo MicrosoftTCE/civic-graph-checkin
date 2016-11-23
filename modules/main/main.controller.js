@@ -37,7 +37,7 @@
 
             main.showSecondPart = false;
 
-            //to edit css saving
+            //change to T to edit confirm-checkin
             main.isSaving = false;
 
             main.entities = [];

@@ -93,6 +93,10 @@ h2{
 	padding-right: inherit;
 }
 
+h2.confirm-checkin {
+	padding-right: 5em;
+}
+
 h3, label{
 	color: #727272;
 	font-size: 1em;
@@ -108,6 +112,15 @@ h4{
 
 p {
 	display: inherit !important;
+}
+
+img {
+	padding-right: 5em;
+	width: 80%;
+}
+
+span {
+	font-size: 0.8em;
 }
 
 .guestType label {
@@ -378,9 +391,10 @@ a.ng-scope.ng-binding {
 
 #worktypemsg {
 	padding: 5px 0px;
-	color: #66ad1c;
-	font-style: italic;
+	color: #737373;
 	font-size: 0.8em;
+	font: inherit;
+	font-weight: 100;
 }
 
 #newmembermsg {
