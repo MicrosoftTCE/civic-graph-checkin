@@ -466,6 +466,7 @@
                     document.getElementById("nEntityForm").reset();
                     activate(false);
                     parseEntityResponse(response);
+                    $timeout(3000);
                     // $scope.editEntity           = EntityFactory.getInstance();
                     // main.isRegisteredMember = false;
                     // $scope.newOrganization      = EntityFactory.getInstance();

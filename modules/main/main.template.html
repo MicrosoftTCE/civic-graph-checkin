@@ -85,6 +85,7 @@
                            ng-model="editEntity.isGuest"
                            ng-value="true"
                            ng-change="main.updateMemberStatus();"
+                           ng-disabled="main.isRegisteredMember"
                            name="string"
                            class="radio3 non-profit-background"
                     /><label for="guest">
@@ -108,7 +109,7 @@
                 />
             </div>
 
-            <label class="checkbox">
+            <label class="checkbox" ng-show="!main.showSecondPart">
                 <input type="checkbox"
                        ng-model="main.optOut"
                        ng-disabled='!main.isValid()'>
@@ -120,6 +121,7 @@
                     ng-if="(!main.showSecondPart && editEntity.isGuest) || main.isNewMember();"
                     ng-click="main.continueForm();"
                     ng-disabled="!main.isValid();"
+                    ng-show="!main.showSecondPart"
             >
                 continue
             </button>
