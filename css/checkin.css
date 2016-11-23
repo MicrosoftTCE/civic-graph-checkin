@@ -111,7 +111,7 @@ p {
 }
 
 .guestType label {
-	padding-left: 5em;
+	padding-left: 3em;
 	padding-bottom: 1em;
 }
 
@@ -193,6 +193,13 @@ div.top-banner p {
     vertical-align:middle;
 /*    text-align:center;
 */}
+
+div#step3 {
+	width: initial;
+	padding: 0;
+	padding-bottom: 6em;
+}
+
 button{
 	margin: 4% 0% 4%;
 	background-color:  #66ad1c;
@@ -225,6 +232,10 @@ button.civicgraph-save {
 
 .template input[type='text']{
 	width: 100%;
+}
+
+input#cb1, input#cb2, input#cb3, input#member, input#guest {
+	display: none !important;
 }
 
 input[type='text']{

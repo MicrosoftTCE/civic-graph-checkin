@@ -67,8 +67,6 @@
 
             <!--Member vs. Guests-->
             <div class="guestType">
-                <label for="member">
-
                     <br>
 
                     <input id="member"
@@ -77,14 +75,10 @@
                            ng-value="false"
                            ng-change="main.updateMemberStatus();"
                            name="string"
-                           class="radio3 for-profit-background"
-                    />
+                           class="radio3 non-profit-background"
+                    /><label for="member">
                     Member
                 </label>
-
-                <label for="guest">
-
-                    <br>
 
                     <input id="guest"
                            type="radio"
@@ -92,8 +86,8 @@
                            ng-value="true"
                            ng-change="main.updateMemberStatus();"
                            name="string"
-                           class="radio3 for-profit-background"
-                    />
+                           class="radio3 non-profit-background"
+                    /><label for="guest">
                     Guest
                 </label>
 
@@ -221,7 +215,7 @@
                 <img src="/img/greenchecked.png" alt="success">
                 <br>
                 <h2>You're checked in!</h2>
-                <h3>Go to civicgraph.io to view and edit your network!</h3>
+                <!--<h3>Go to civicgraph.io to view and edit your network!</h3>-->
             </div>
         </div>
     </form>
