@@ -72,6 +72,7 @@
             addBlankFields($scope.editEntity);
             addBlankFields($scope.newOrganization);
 
+            main.compareEntityName = compareEntityName;
             main.continueForm = continueForm;
             main.isNewMember = isNewMember;
             main.isValid = isValid;
@@ -235,6 +236,14 @@
             }
         }
 
+        function compareEntityName(entity) {
+            var input = isDef($scope.editEntity.name) ? $scope.editEntity.name.toLowerCase() : '',
+                name = entity.name.toLowerCase(),
+                nickname = isDef(entity.nickname) ? entity.nickname.toLowerCase() : '';
+
+            return name.includes(input) || (nickname.includes(input));
+        }
+
         function continueForm() {
             main.showSecondPart = true;
         }
@@ -251,8 +260,9 @@
         }
 
         function isNewMember() {
-            //if you're not a guest and you're not a registered member
-            $('#newmembermsg').hide();
+            if (!$scope.editEntity.isGuest && !main.isRegisteredMember) {
+                $('#newmembermsg').show();
+            }
             return !($scope.editEntity.isGuest || main.isRegisteredMember);
         }
 
@@ -277,8 +287,6 @@
         }
 
         function setCurrentEntityToSelected(item) {
-            // I believe that if the entity was selected from the list, then they are not a guest.
-            // Unless we are allowing duplicate registers.  ???
             // $scope.isRegisteredMember = !$scope.editEntity.isGuest;
             main.isRegisteredMember = true;
             $scope.editEntity.isGuest = false;
@@ -287,9 +295,16 @@
                 $scope.editEntity.employments[0] = item.employments[0];
                 $scope.employerFound = true;
             }
+            else {
+                $scope.editEntity.employments[0] = {};
+                $scope.employerFound = false;
+            }
 
             if (isNotEmptyArray(item.locations)) {
                 $scope.editEntity.locations[0] = {full_address: item.locations[0].full_address};
+            }
+            else {
+                $scope.editEntity.locations[0] = {};
             }
 
             console.log("Item selected after parsing: %O", item);

@@ -14,13 +14,13 @@
 
             <!-- Name -->
             <label for="editEntityName">Name</label>
-            <div id='newmembermsg'><span>Creating New Member</span>​</div>
+            <div ng-show='main.isNewMember()' id='newmembermsg'><span>Creating New Member</span>​</div>
             <input type='text'
                    name='entityName'
                    ng-model='editEntity.name'
                    ng-change="main.isRegisteredMember=false"
                    required
-                   typeahead='entity.name as entity.name for entity in main.entities | filter:{name: $viewValue} | limitTo:8'
+                   typeahead='entity.name as entity.name for entity in main.entities | filter: main.compareEntityName | limitTo:8'
                    typeahead-on-select="main.setCurrentEntityToSelected($item, $model, $label)"
                    id="editEntityName"
             >
@@ -114,6 +114,14 @@
                 />
             </div>
 
+            <!--checkbox-->
+            <label class="checkbox">
+                <input type="checkbox"
+                       ng-click="add(true); checkinTime(timestamp)"
+                       ng-disabled='!main.isValid()'>
+                Check in without saving to civicgraph.io
+            </label>
+
             <button type="button"
                     class="buttonContinue"
                     ng-if="(!main.showSecondPart && editEntity.isGuest) || main.isNewMember();"
@@ -194,12 +202,13 @@
                     <span class="three">.</span>​
                 </div>
 
-                <!--<label class="checkbox">-->
-                    <!--<input type="checkbox"-->
-                           <!--ng-click="add(true); checkinTime(timestamp)"-->
-                           <!--ng-disabled='!main.isValid()'>-->
-                    <!--check in without saving to civicgraph.io-->
-                <!--</label>-->
+                <!--checkbox-->
+                <label class="checkbox">
+                    <input type="checkbox"
+                           ng-click="add(true); checkinTime(timestamp)"
+                           ng-disabled='!main.isValid()'>
+                    Check in without saving to civicgraph.io
+                </label>
 
                 <button ng-click="add(false); checkinTime(timestamp);"
                         class="buttonadd"
