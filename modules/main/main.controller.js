@@ -7,6 +7,7 @@
         '$timeout',
         '_',
         'EntityFactory',
+        'apiService',
         Controller
     ];
 
@@ -23,7 +24,7 @@
         return Array.isArray(o) && o.length > 0;
     }
 
-    function Controller($scope, $http, $timeout, _, EntityFactory) {
+    function Controller($scope, $http, $timeout, _, EntityFactory, apiService) {
 
         var main = this;
 
@@ -104,13 +105,13 @@
             $scope.updateMemberStatus = updateMemberStatus;
 
             if (queryAPI) {
-                $http.get('api/entities')
+                apiService.get('/entities')
                     .then(function(resp){
                         parseEntityResponse(resp.data);
                     }, mockResponse)
             }
 
-            $http.get('api/categories')
+            apiService.get('/categories')
                 .success(parseCategoryResponse)
                 .error(function (e) {
                     if (isDef(e.info)) {
@@ -448,7 +449,7 @@
         function saveOrgToDB(entity) {
             $scope.waitingForResponse = true;
             $scope.updating = true;
-            $http.post('api/save', {'entity': entity})
+            apiService.post('/save', {'entity': entity})
                 .success(function (response) {
                     $scope.waitingForResponse = false;
                     parseEntityResponse(response);
@@ -469,7 +470,7 @@
         function savetoDB(entity, optOut) {
             console.log(JSON.stringify({'entity': entity}));
             main.isSaving = true;
-            $http.post('api/save', {'entity': entity, 'optOut': optOut})
+            apiService.post('/save', {'entity': entity, 'optOut': optOut})
                 .success(function (response) {
                     document.getElementById("nEntityForm").reset();
                     activate(false);
