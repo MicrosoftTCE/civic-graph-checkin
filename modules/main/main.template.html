@@ -18,7 +18,7 @@
             <input type='text'
                    name='entityName'
                    ng-model='editEntity.name'
-                   ng-change="main.isRegisteredMember=false"
+                   ng-change="main.isRegisteredMember=false; main.noOrg = false;"
                    required
                    typeahead='entity.name as entity.name for entity in main.entities | filter: main.compareEntityName | limitTo:8'
                    typeahead-on-select="main.setCurrentEntityToSelected($item, $model, $label)"
@@ -35,7 +35,8 @@
                        ng-model='employment.entity'
                        typeahead='entity.name as entity.name for entity in main.entities | filter:{name: $viewValue} | limitTo:8'
                        ng-blur='checkOrganization($item, $model, $label)'
-                       ng-change='addNameToOrg()'
+                       ng-change='main.addNameToOrg()'
+                       ng-disabled="main.noOrg"
                        ng-keyup="$event.keyCode == 13 ? submit() : null"
                        typeahead-on-select='setConnection($item, employment)'
                        id="employmentEntity">
@@ -64,6 +65,13 @@
                            ng-model='newOrganization.type' value="Non-Profit"><label for="cb3">Non-Profit</label>
                 </div>
             </div>
+
+            <label class="checkbox" id="org-optout">
+                <input type="checkbox"
+                       ng-model="main.noOrg"
+                       ng-disabled='main.hasOrganization()'>
+                I am not affiliated with an organization
+            </label>
 
             <!--Member vs. Guests-->
             <div class="guestType">
@@ -109,6 +117,21 @@
                 />
             </div>
 
+            <!--Personal Location-->
+            <div ng-if="main.showSecondPart || main.noOrg">
+                <label for="location">Where are you based?</label><br>
+                <div id="locationmsg"><span>Please select a location from the dropdown menu.</span>​</div>
+
+                <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
+                       ng-model='location.full_address'
+                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
+                       typeahead-on-select='setLocation(location, $item)'
+                       typeahead-editable='false'
+                       ng-change='addLocation(editEntity.locations)'
+                       ng-enter-blur='{{editEntity.locations}}'
+                       id="location">
+            </div>
+
             <label class="checkbox" ng-show="!main.showSecondPart">
                 <input type="checkbox"
                        ng-model="main.optOut"
@@ -131,19 +154,8 @@
                     ng-if="main.isRegisteredMember && !main.showSecondPart">Check In
             </button>
 
-            <!--Location-->
+            <!--Second Part-->
             <div ng-if="main.showSecondPart">
-                <label for="location">Where are you based?</label><br>
-                <div id="locationmsg"><span>Please select a location from the dropdown menu.</span>​</div>
-
-                <input type='text' ng-repeat='location in editEntity.locations|limitTo:1'
-                       ng-model='location.full_address'
-                       typeahead='loc.address.formattedAddress for loc in addressSearch($viewValue)'
-                       typeahead-on-select='setLocation(location, $item)'
-                       typeahead-editable='false'
-                       ng-change='addLocation(editEntity.locations)'
-                       ng-enter-blur='{{editEntity.locations}}'
-                       id="location">
 
                 <div class='work-type'><label>What type of work do you
                     do?</label><br>

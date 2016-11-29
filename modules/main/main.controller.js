@@ -42,6 +42,8 @@
 
             main.entities = [];
 
+            main.noOrg = false;
+
             main.optOut = false;
 
             $scope.categories = [];
@@ -77,8 +79,10 @@
             addBlankFields($scope.editEntity);
             addBlankFields($scope.newOrganization);
 
+            main.addNameToOrg = addNameToOrg;
             main.compareEntityName = compareEntityName;
             main.continueForm = continueForm;
+            main.hasOrganization = hasOrganization;
             main.isNewMember = isNewMember;
             main.isValid = isValid;
             main.setRegisteredToFalse = setRegisteredToFalse;
@@ -86,7 +90,6 @@
 
             $scope.add = add;
             $scope.addLocation = addLocation;
-            $scope.addNameToOrg = addNameToOrg;
             $scope.addressSearch = addressSearch;
             $scope.autoSetAddress = autoSetAddress;
             $scope.checkinTime = checkinTime;
@@ -105,17 +108,16 @@
                     .then(function(resp){
                         parseEntityResponse(resp.data);
                     }, mockResponse)
-                    .then(function () {
-                        $http.get('api/categories')
-                            .success(parseCategoryResponse)
-                            .error(function (e) {
-                                if (isDef(e.info)) {
-                                    console.log(e.info);
-                                }
-                                parseCategoryResponse();
-                            });
-                    });
             }
+
+            $http.get('api/categories')
+                .success(parseCategoryResponse)
+                .error(function (e) {
+                    if (isDef(e.info)) {
+                        console.log(e.info);
+                    }
+                    parseCategoryResponse();
+                });
 
         }
 
@@ -230,7 +232,7 @@
         }
 
         function checkOrganization() {
-            var orgValue = $scope.editEntity.employments[0].entity.toLowerCase();
+            var orgValue = isDef($scope.editEntity.employments[0].entity) ? $scope.editEntity.employments[0].entity.toLowerCase() : '';
             if (!existsInArray(orgValue, $scope.entityNames) && orgValue !== "") {
                 if (!$scope.templateShown) {
                     $scope.templateShown = true;
@@ -254,7 +256,7 @@
         }
 
         function existsInArray(string, array) {
-            return (array.indexOf(string) >= 0);
+            return (Array.isArray(array) && array.indexOf(string) >= 0);
         }
 
         function getCollaboratorColor(collaborator) {
@@ -262,6 +264,11 @@
             if (collabentity) {
                 return collabentity.type + "-color";
             }
+        }
+
+        function hasOrganization() {
+            var orgValue = isDef($scope.editEntity.employments[0].entity) ? $scope.editEntity.employments[0].entity.toLowerCase() : '';
+            return (existsInArray(orgValue, $scope.entityNames) && orgValue !== '') || $scope.templateShown ;
         }
 
         function isNewMember() {
@@ -278,9 +285,10 @@
                     && $scope.newOrganization.locations[0].full_address)
                     || $scope.editEntity.employments[0].entity_id,
                 validGuest = !$scope.editEntity.isGuest || ($scope.editEntity.isGuest
-                    && $scope.editEntity.guestHost);
+                    && $scope.editEntity.guestHost),
+                validLocation = $scope.editEntity.locations[0].full_address || validOrg;
 
-            return validName && validOrg && validGuest;
+            return validName && (validOrg || main.noOrg) && validGuest && validLocation;
         }
 
         function isValidAdd() {
@@ -371,7 +379,7 @@
             function filterEmptyParameterString(parameter) {
                 return function (o) {
                     return o[parameter] !== '';
-                }
+                };
             }
 
             function filterFinance(o) {
@@ -476,7 +484,7 @@
                     // main.isSaving = false;
                 })
                 .error(function (data, status, headers, config) {
-                    window.location.reload();
+                    // window.location.reload();
                     console.log('ERROR');
                     console.log(status);
                     console.log(headers);
@@ -500,6 +508,7 @@
 
         function setConnection(entity, connection) {
             $scope.templateShown = false;
+            main.noOrg = false;
             connection.entity_id = entity.id;
         }
 
@@ -559,7 +568,7 @@
                 "controller": "MainController",
                 "controllerAs": "main",
                 "templateUrl": "/modules/main/main.template.html"
-            })
+            });
     }
 
     angular.module('civic-graph-kiosk')
