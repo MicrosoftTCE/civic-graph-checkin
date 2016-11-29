@@ -455,6 +455,10 @@ a.ng-scope.ng-binding {
     }
 }
 
+input#employmentEntity[disabled] {
+	background-color: #eeeff1;
+}
+
 input[type=radio] + label::before {
     content: '';
     display: inline-block;

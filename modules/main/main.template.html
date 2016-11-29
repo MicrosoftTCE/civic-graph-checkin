@@ -66,8 +66,9 @@
                 </div>
             </div>
 
-            <label class="checkbox" id="org-optout">
+            <label class="checkbox" id="org-optout" ng-show="!main.hasOrganization()">
                 <input type="checkbox"
+                       class="noOrg"
                        ng-model="main.noOrg"
                        ng-disabled='main.hasOrganization()'>
                 I am not affiliated with an organization
